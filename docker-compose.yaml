@@ -11,17 +11,17 @@ x-common-variables:
     #####MONGO DB SERVER DETAILS####
     MONGODB_SERVER: 172.21.64.1
     #####S3 Details####
-    S3_ACCESSKEY: AKIAYTMQWN5HAPDGTFBF
-    S3_SECRETKEY: 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
+    S3_ACCESSKEY: 
+    S3_SECRETKEY: 
     S3_BUCKET: myfirstawsbucketpratice
     #####SES Details to send verification emails.####
-    SES_ACCESSKEY: AKIAYTMQWN5HAPDGTFBF
-    SES_SECRETKEY: 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
+    SES_ACCESSKEY: 
+    SES_SECRETKEY: 
     #####SMTP Details to send emails#######
     SMTP_SERVER: email-smtp.us-east-1.amazonaws.com
-    SMTP_ACCESSKEY: AKIAYTMQWN5HHMJSMDNZ
-    SMTP_SECRETKEY: BBcYyagKPVyQTZSfBbzceiAUkQYG/O1+i58AnN5T/Cu1
-    SMTP_FROMEMAIL: sateesh.rajn@gmail.com
+    SMTP_ACCESSKEY: 
+    SMTP_SECRETKEY: 
+    SMTP_FROMEMAIL: 
 ######################################################
     BMC_GATEWAY: http://bmc-gateway:9191
     MONGODB_PORT: 27017
