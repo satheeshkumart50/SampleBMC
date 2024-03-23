@@ -1,0 +1,106 @@
+package com.bmc.notificationservice.service;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.annotation.PostConstruct;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+
+import com.bmc.notificationservice.model.Doctor;
+import com.bmc.notificationservice.model.NotificationUser;
+
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import lombok.RequiredArgsConstructor;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.ses.SesClient;
+
+@Service
+@RequiredArgsConstructor
+public class MailService {
+
+	private SesClient sesClient;
+    private final FreeMarkerConfigurer configurer;
+    private String fromEmail = "sateesh.rajn@gmail.com";//needs to be a verified email id
+    @Value("${s3.accessKey}")
+	private String accessKey;
+	@Value("${s3.secretKey}")
+	private String secretKey;
+
+    @PostConstruct
+    public void init(){
+        // When you hit the endpoint to verify the email this needs to be the access key for your AWS account
+        // When you hit the endpoint to send an email this value needs to be updated to the Smtp username that you generated
+      //  accessKey="AKIAYTMQWN5HAPDGTFBF";
+     //   accessKey="AKIAYTMQWN5HP3A4ETFW";
+
+
+        // When you hit the endpoint to verify the email this needs to be the secret key for your AWS account
+        // When you hit the endpoint to send an email this value needs to be updated to the Smtp password that you generated
+      //  secretKey="ALwa3AtNJc1/7Kh5uM6AtddL7NGiDP4FL90YpvuR";
+     //   secretKey="BK6l1LdTJPCOnQuaphzyqvhhu8qCjARPxWqhDcSu29v1";
+        StaticCredentialsProvider staticCredentialsProvider = StaticCredentialsProvider
+            .create(AwsBasicCredentials.create(accessKey,secretKey));
+        sesClient = SesClient.builder()
+            .credentialsProvider(staticCredentialsProvider)
+            .region(Region.US_EAST_1)
+            .build();
+    }
+    
+    public void verifyEmail(String emailId){
+    	System.out.println("======VERIFY EMAIL======");
+        sesClient.verifyEmailAddress(req->req.emailAddress(emailId));
+    }
+
+    public void sendEmail(Object notificationObject, String templateModel) throws IOException, TemplateException, MessagingException {
+        if(templateModel.equals("Doctor") ) {
+        	Doctor doctor = (Doctor)notificationObject;
+        	Map<String,Doctor> templateModelMap = new HashMap<>();
+            templateModelMap.put("Doctor",doctor);
+            Template freeMarkerTemplate = configurer.getConfiguration().getTemplate("doctorapproval.ftl");
+            String htmlBody = FreeMarkerTemplateUtils.processTemplateIntoString(freeMarkerTemplate,templateModelMap);
+            sendSimpleMessage(doctor.getEmailId(),"BMC Registration Update",htmlBody);
+        }
+    }
+
+    private void sendSimpleMessage(String toEmail, String subject, String body) throws MessagingException {
+        Properties props = System.getProperties();
+        props.put("mail.transport.protocol","smtp");
+        props.put("mail.smtp.port",587);
+        props.put("mail.smtp.starttls.enable","true");
+        props.put("mail.smtp.auth","true");
+        javax.mail.Session session = javax.mail.Session.getDefaultInstance(props);
+        MimeMessage msg = new MimeMessage(session);
+        msg.setFrom(fromEmail);
+        msg.setRecipient(Message.RecipientType.TO, new InternetAddress("aishwaryaarajan1@gmail.com"));
+        msg.setSubject(subject);
+        msg.setContent(body,"text/html");
+        Transport transport = session.getTransport();
+        try {
+        //    transport.connect("email-smtp.us-east-1.amazonaws.com", "AKIAYTMQWN5HP3A4ETFW",
+          //  		"BK6l1LdTJPCOnQuaphzyqvhhu8qCjARPxWqhDcSu29v1");
+        	//transport.connect("email-smtp.us-east-1.amazonaws.com", accessKey,
+        		//	secretKey);
+        	transport.connect("email-smtp.us-east-1.amazonaws.com", "AKIAYTMQWN5HAPDGTFBF",
+                		"ALwa3AtNJc1/7Kh5uM6AtddL7NGiDP4FL90YpvuR");
+            transport.sendMessage(msg, msg.getAllRecipients());
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }finally {
+            transport.close();
+        }
+    }
+}

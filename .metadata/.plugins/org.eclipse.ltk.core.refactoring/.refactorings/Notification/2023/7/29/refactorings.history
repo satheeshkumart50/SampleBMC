@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename source folder &apos;Notification/com.sweethome.notificationservice&apos; to &apos;com.bmc.notificationservice&apos;&#x0D;&#x0A;- Original project: &apos;Notification&apos;&#x0D;&#x0A;- Original element: &apos;Notification/com.sweethome.notificationservice&apos;&#x0D;&#x0A;- Renamed element: &apos;com.sweethome.notificationservice&apos;" description="Rename source folder &apos;com.sweethome.notificationservice&apos;" id="org.eclipse.jdt.ui.rename.source.folder" input="/com.sweethome.notificationservice" name="com.bmc.notificationservice" stamp="1689470495708" version="1.0"/>
+</session>

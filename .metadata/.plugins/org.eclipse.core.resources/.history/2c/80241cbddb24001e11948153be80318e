@@ -1,0 +1,26 @@
+#mongodb
+spring.data.mongodb.host=localhost
+spring.data.mongodb.port=27017
+spring.data.mongodb.database=bmc
+
+# App config
+server.port=8081
+spring.application.name=doctor-service
+
+#### Kafka Details ####
+kafka.server = localhost:9092
+kafka.topic = message
+
+##### S3 Details
+s3.accessKey = AKIAYTMQWN5HAPDGTFBF
+s3.secretKey = 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
+s3.bucket = myfirstawsbucketpratice
+
+## App Values
+default.doctor.speciality=GENERAL_PHYSICIAN
+default.doctor.status=Pending
+approve.doctor.status=Active
+reject.doctor.status=Rejected
+query.doctor.limit=20
+error.doctor.InvalidInput=Invalid input. Parameter name: 
+error.doctor.ResourceNotAvailable=Requested resource is not available

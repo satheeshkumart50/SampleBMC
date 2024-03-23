@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;User.java&apos; to &apos;notification-service/src/main/java/com.bmc.notificationservice.model&apos;&#x0D;&#x0A;- Original project: &apos;user-service&apos;&#x0D;&#x0A;- Destination element: &apos;notification-service/src/main/java/com.bmc.notificationservice.model&apos;&#x0D;&#x0A;- Original element: &apos;com.bmc.userserivce.model.User.java&apos;" description="Copy compilation unit" destination="=notification-service/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.bmc.notificationservice.model" element1="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.bmc.userserivce.model{User.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1691084916017" units="1" version="1.0"/>
+</session>
